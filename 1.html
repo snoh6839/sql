@@ -1,0 +1,366 @@
+<div class="teammainThree">
+    <h3>커리큘럼</h3>
+    <c:forEach items="${curriculumList}" var="curriculum">
+        <c:if test="${curdeGreeTime > 0}">
+            <p class="totalTimeCenter">${deGreeNo}차시: <span
+                    class="minutes">${deGreeTime}</span>분</p>
+            <!-- 테이블 구조 -->
+            <div class="table">
+                <div class="table">
+                    <ul>
+                        <li>
+                            <p>소요시간</p>
+                        </li>
+                        <li>
+                            <p class="backSpace">활동구성</p>
+                        </li>
+                        <li>
+                            <p class="backSpace">활동프로그램명</p>
+                        </li>
+                        <li>
+                            <p class="backSpace">내용</p>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            <p><span class="minutes">${curdeGreeTime}</span>분</p>
+                        </li>
+                        <li>
+                            <p class="backSpace">${cureBigDiv}</p>
+                        </li>
+                        <li>
+                            <p class="backSpace">${cureMidDiv}</p>
+                        </li>
+                        <li>
+                            <p class="backSpace">${curDesc}</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </c:if>
+        <c:if test="${curriculum.curDegreeTime == 0}">
+            <p class="totalTimeCenter">${deGreeNo}차시: <span class="minutes">${deGreeTime}</span>분</p>
+            <!-- 테이블 구조 -->
+            <div class="table">
+                <div class="table">
+                    <ul>
+                        <li>
+                            <p>차시</p>
+                        </li>
+                        <li>
+                            <p class="backSpace">활동주제</p>
+                        </li>
+                        <li>
+                            <p class="backSpace">내용</p>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            <p>${cureBigDiv}</p>
+                        </li>
+                        <li>
+                            <p class="backSpace">${cureMidDiv}</p>
+                        </li>
+                        <li>
+                            <p class="backSpace">${curDesc}</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </c:if>
+    </c:forEach>
+</div>
+
+
+
+    만들어야 하는것 sql.xml , dao , vo , service , controller 등등
+    
+    -- 테이블 onairedu.tn_edu_cur 구조 내보내기
+    CREATE TABLE IF NOT EXISTS `tn_edu_cur` (
+    `CUR_NO` int(11) NOT NULL AUTO_INCREMENT COMMENT '커리큐럼번호',
+    `CURMST_NO` int(11) NOT NULL COMMENT '커리큐럼 마스터코드',
+    `CUR_DEGREE_TIME` int(11) NOT NULL DEFAULT 0 COMMENT '차수시간',
+    `CUR_BIG_DIV` varchar(100) NOT NULL DEFAULT '' COMMENT '커리큐럼대분류',
+    `CUR_MID_DIV` varchar(200) NOT NULL DEFAULT '' COMMENT '커리큐럼중분류',
+    `CUR_DESC` varchar(1000) NOT NULL DEFAULT '' COMMENT '설명',
+    `FRST_REGISTER_PNTTM` char(14) NOT NULL COMMENT '최초등록시점',
+    `FRST_REGISTER_ID` varchar(20) DEFAULT NULL COMMENT '최초등록자ID',
+    `LAST_UPDUSR_PNTTM` char(14) DEFAULT NULL COMMENT '최종수정시점',
+    `LAST_UPDUSR_ID` varchar(20) DEFAULT NULL COMMENT '최종수정자ID',
+    PRIMARY KEY (`CUR_NO`) USING BTREE,
+    KEY `TN_EDU_CUR_FK2_idx` (`CURMST_NO`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='커리큐럼';
+    
+    -- 테이블 onairedu.tn_edu_curmst 구조 내보내기
+    CREATE TABLE IF NOT EXISTS `tn_edu_curmst` (
+    `CURMST_NO` int(11) NOT NULL AUTO_INCREMENT COMMENT '커리큐럼마스터 번호',
+    `EDU_NO` int(11) NOT NULL COMMENT '강좌번호',
+    `DEGREE_NO` int(11) NOT NULL COMMENT '차수',
+    `DEGREE_TIME` varchar(50) DEFAULT NULL COMMENT '차수시간',
+    `CURMST_TITLE` varchar(300) NOT NULL DEFAULT '' COMMENT '제목',
+    `CURMST_DESC` varchar(300) NOT NULL DEFAULT '' COMMENT '설명',
+    `FRST_REGISTER_PNTTM` char(14) NOT NULL COMMENT '최초등록시점',
+    `FRST_REGISTER_ID` varchar(20) DEFAULT NULL COMMENT '최초등록자ID',
+    `LAST_UPDUSR_PNTTM` char(14) DEFAULT NULL COMMENT '최종수정시점',
+    `LAST_UPDUSR_ID` varchar(20) DEFAULT NULL COMMENT '최종수정자ID',
+    PRIMARY KEY (`CURMST_NO`) USING BTREE
+    ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='커리큐럼마스터테이블';
+
+
+
+    <div class="teammainThree">
+        <h3>커리큘럼</h3>
+        <c:forEach items="${selectCurriculumList}" var="curriculum">
+            <c:choose>
+                <c:when test="${curriculum.curdeGreeTime > 0}">
+                    <p class="totalTimeCenter">${curriculum.deGreeNo}차시: <span
+                            class="minutes">${curriculum.deGreeTime}</span>분</p>
+                    <!-- 테이블 구조 -->
+                    <div class="table">
+                        <div class="table">
+                            <ul>
+                                <li>
+                                    <p>소요시간</p>
+                                </li>
+                                <li>
+                                    <p class="backSpace">활동구성</p>
+                                </li>
+                                <li>
+                                    <p class="backSpace">활동프로그램명</p>
+                                </li>
+                                <li>
+                                    <p class="backSpace">내용</p>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    <p><span class="minutes">${curriculum.curdeGreeTime}</span>분</p>
+                                </li>
+                                <li>
+                                    <p class="backSpace">${curriculum.cureBigDiv}</p>
+                                </li>
+                                <li>
+                                    <p class="backSpace">${curriculum.cureMidDiv}</p>
+                                </li>
+                                <li>
+                                    <p class="backSpace">${curriculum.curDesc}</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+    
+                </c:when>
+                <c:otherwise>
+                    <p class="totalTimeCenter">${curriculum.deGreeNo}차시: <span
+                            class="minutes">${curriculum.deGreeTime}</span>분</p>
+                    <!-- 테이블 구조 -->
+                    <div class="table">
+                        <div class="table">
+                            <ul>
+                                <li>
+                                    <p>차시</p>
+                                </li>
+                                <li>
+                                    <p class="backSpace">활동주제</p>
+                                </li>
+                                <li>
+                                    <p class="backSpace">내용</p>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    <p>${curriculum.cureBigDiv}</p>
+                                </li>
+                                <li>
+                                    <p class="backSpace">${curriculum.cureMidDiv}</p>
+                                </li>
+                                <li>
+                                    <p class="backSpace">${curriculum.curDesc}</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+    </div>
+
+    문제점 : 한번만 나와야할 항목들이 여러번 나옴
+    
+
+    문제점
+    foreach 루프로 반복문이 돌아가서 반복되지 말아야 할 것도 반복됨
+    하지만 ${curriculum.curdeGreeTime > 0} 이걸로 구분해서 테이블 모양이 달라야하고
+    curMstNo 가 다를경우 다른 테이블로 나와야함
+    
+    
+    <select id="eduProgramDAO.selectCurriculumList" parameterClass="eduProgramVO" resultMap="curriculumMap">
+        SELECT CM.*, C.* , E.EDU_NO,E.EDU_NM, M.MENU_NM , M.MENU_NO
+        FROM TN_EDU_CURMST AS CM
+        INNER JOIN TN_EDU_CUR AS C ON CM.CURMST_NO = C.CURMST_NO
+        INNER JOIN TN_EDU AS E ON CM.EDU_NO = E.EDU_NO
+        INNER JOIN TN_MENU AS M ON E.EDU_NM = M.MENU_NM
+        WHERE M.MENU_NO = #menuNo#
+        ORDER BY CM.CURMST_NO, C.CUR_NO;
+    </select>
+    
+    EduProgramVO selectCurriculumList1 = new EduProgramVO();
+    selectCurriculumList1.setMenuNo(key);
+    List selectCurriculumList = eduProgramService.selectCurriculumList(selectCurriculumList1);
+    model.addAttribute("selectCurriculumList", selectCurriculumList);
+    
+    이쪽을 바꿔야 하나? 최대한 안바꾸고 해결하고 싶은데..
+
+
+    <div class="teammainThree">
+        <h3>커리큘럼</h3>
+        <c:set var="previousCurMstNo" value="" /> <!-- 이전 curMstNo 값을 추적하기 위한 변수 -->
+        <c:forEach items="${selectCurriculumList}" var="curriculum" varStatus="status">
+            <c:choose>
+                <!-- 첫 번째 아이템이거나 이전 curMstNo와 현재 curMstNo가 다를 경우 새 테이블 시작 -->
+                <c:when test="${status.first or previousCurMstNo ne curriculum.curMstNo}">
+                    <!-- 새 테이블을 시작하기 전에 이전 테이블이 있으면 닫기 -->
+                    <c:if test="${not status.first}">
+    </div> <!-- 이전 테이블 닫기 -->
+    </c:if>
+    <div class="table">
+        <!-- 공통 테이블 헤더 구조 -->
+    </div>
+    <c:set var="previousCurMstNo" value="${curriculum.curMstNo}" /> <!-- 현재 curMstNo를 저장 -->
+    </c:when>
+    </c:choose>
+    <!-- 공통 내용 및 조건에 따른 내용 출력 -->
+    <c:if test="${curriculum.curdeGreeTime > 0}">
+        <!-- 첫 번째 테이블 구조 내용 -->
+    </c:if>
+    <c:if test="${curriculum.curdeGreeTime == 0}">
+        <!-- 두 번째 테이블 구조 내용 -->
+    </c:if>
+    </c:forEach>
+    <!-- 마지막 아이템 처리 후 테이블 닫기 -->
+    <c:if test="${not empty selectCurriculumList}">
+        </div> <!-- 마지막 테이블 닫기 -->
+    </c:if>
+    </div>
+
+조건 재정리
+${curriculum.curMstNo} 따라 테이블이 나오는데 그 테이블안 curriculum.curdeGreeTime 데이터에 따라 조건에 해당하는 테이블이 나올것
+
+공통코드 :
+<p class="totalTimeCenter">${curriculum.deGreeNo}차시: <span class="minutes">${curriculum.deGreeTime}</span>분</p>
+
+조건 1. ${curriculum.curdeGreeTime > 0}
+조건 1에서 반복되면 안되는 부분 :
+<ul>
+    <li>
+        <p>소요시간</p>
+    </li>
+    <li>
+        <p class="backSpace">활동구성</p>
+    </li>
+    <li>
+        <p class="backSpace">활동프로그램명</p>
+    </li>
+    <li>
+        <p class="backSpace">내용</p>
+    </li>
+</ul>
+
+조건 1에서 반복 되어야하는 부분 :
+<ul>
+    <li>
+        <p><span class="minutes">${curriculum.curdeGreeTime}</span>분</p>
+    </li>
+    <li>
+        <p class="backSpace">${curriculum.cureBigDiv}</p>
+    </li>
+    <li>
+        <p class="backSpace">${curriculum.cureMidDiv}</p>
+    </li>
+    <li>
+        <p class="backSpace">${curriculum.curDesc}</p>
+    </li>
+</ul>
+
+조건 2. ${curriculum.curdeGreeTime == 0}
+조건 2에서 반복되면 안되는 부분 :
+<ul>
+    <li>
+        <p>차시</p>
+    </li>
+    <li>
+        <p class="backSpace">활동주제</p>
+    </li>
+    <li>
+        <p class="backSpace">내용</p>
+    </li>
+</ul>
+조건 2에서 반복 되어야하는 부분 :
+<ul>
+    <li>
+        <p>${curriculum.cureBigDiv}</p>
+    </li>
+    <li>
+        <p class="backSpace">${curriculum.cureMidDiv}</p>
+    </li>
+    <li>
+        <p class="backSpace">${curriculum.curDesc}</p>
+    </li>
+</ul>
+
+
+수정사항: curMstNo 가 순서대로 있는게 아니라서 바로인접한 순서가 아니면 테이블이 안나오는 문제 해결 필요.
+ex ) 20 , 21 , 25 면 20,21 만 나오고 19, 26, 27 이면 19만 나옴
+<div class="teammainThree">
+			    <h3>커리큘럼</h3>
+			    <c:set var="currentCurMstNo" value="${selectCurriculumList[0].curMstNo}"/> 
+			    <c:forEach items="${selectCurriculumList}" var="curriculum" varStatus="status">
+			        <c:if test="${currentCurMstNo ne curriculum.curMstNo}">
+			            <c:set var="currentCurMstNo" value="${curriculum.curMstNo}"/>
+			        </c:if> 
+			
+			        <c:if test="${status.first or currentCurMstNo ne selectCurriculumList[status.index - 1].curMstNo}">
+			            <c:choose>
+			                <c:when test="${curriculum.curdeGreeTime > 0}">
+			                <p class="totalTimeCenter">${curriculum.deGreeNo}차시: <span class="minutes">${curriculum.deGreeTime}</span>분</p>
+			                <div class="table">
+			                    <ul>
+			                        <li><p>소요시간</p></li>
+			                        <li><p class="backSpace">활동구성</p></li>
+			                        <li><p class="backSpace">활동프로그램명</p></li>
+			                        <li><p class="backSpace">내용</p></li>
+			                    </ul>
+			                </c:when>
+			                <c:otherwise>
+			                
+			                <p class="totalTimeCenter">${curriculum.deGreeNo}차시: <span class="minutes">${curriculum.deGreeTime}</span>분</p>
+			                <div class="table">
+			                    <ul>
+			                        <li><p>차시</p></li>
+			                        <li><p class="backSpace">활동주제</p></li>
+			                        <li><p class="backSpace">내용</p></li>
+			                    </ul>
+			                </c:otherwise>
+			            </c:choose>
+			        </c:if>
+			        <c:choose>
+			            <c:when test="${curriculum.curdeGreeTime > 0}">
+			                <ul>
+			                    <li><p><span class="minutes">${curriculum.curdeGreeTime}</span>분</p></li>
+			                    <li><p class="backSpace">${curriculum.cureBigDiv}</p></li>
+			                    <li><p class="backSpace">${curriculum.cureMidDiv}</p></li>
+			                    <li><p class="backSpace">${curriculum.curDesc}</p></li>
+			                </ul>
+			            </c:when>
+			            <c:otherwise>
+			                <ul>
+			                    <li><p>${curriculum.cureBigDiv}</p></li>
+			                    <li><p class="backSpace">${curriculum.cureMidDiv}</p></li>
+			                    <li><p class="backSpace">${curriculum.curDesc}</p></li>
+			                </ul>
+			            </c:otherwise>
+			        </c:choose>
+			        
+			    </c:forEach>
+	            </div>
+			</div>
